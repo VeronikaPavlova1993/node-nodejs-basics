@@ -1,7 +1,8 @@
-const fs = require('fs');
+import fs from 'node:fs';
 
 const create = async () => {
     const path = './src/fs/files/fresh.txt';
+    
  fs.access(path, fs.constants.F_OK, (isPromiseResolve) => {
   if (isPromiseResolve) {
    fs.writeFile(path, 'I am fresh and young', () => {});
@@ -10,5 +11,4 @@ const create = async () => {
   }
  });
 };
-
-create();
+await create();
