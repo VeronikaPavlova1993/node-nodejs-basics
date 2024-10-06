@@ -1,22 +1,17 @@
 import fs from 'node:fs';
 
-import { ERROR_OPERATION_FAILED_TEXT } from "../constants.js";
-import { resolveDir, throwErrorWithText } from "../helpers.js";
-
 const copy = async () => {
-    const dirPath = resolveDir('files', import.meta.url);
-    const dirCopyPath = dirPath + '_copy';
-
-    fs.cp(
-        dirPath,
-        dirCopyPath,
-        {
-            recursive: true,
-            errorOnExist: true,
-            force: false,
-        },
-        (err) => throwErrorWithText(err, ERROR_OPERATION_FAILED_TEXT), 
-    )
+    const dirCopy = './src/fs/files_copy';
+    const dirFile = './src/fs/files';
+ fs.access(dirCopy, fs.constants.F_OK, (isPromiseResolve) => {
+  if (isPromiseResolve) {
+   fs.cp(dirFile, dirCopy, { recursive: true }, err => {
+    if (err) throw new Error('FS operation failed');
+   });
+  } else {
+   throw new Error('FS operation failed');
+  }
+ });
 };
 
 await copy();
